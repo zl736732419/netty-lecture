@@ -13,6 +13,8 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.HttpVersion;
 import io.netty.util.CharsetUtil;
 
+import java.util.Objects;
+
 /**
  * @Author zhenglian
  * @Date 2019/4/28
@@ -23,6 +25,13 @@ public class TestHttpServerHandler extends SimpleChannelInboundHandler<HttpMessa
         if (!(msg instanceof HttpRequest)) {
             return;
         }
+        
+        HttpRequest request = (HttpRequest) msg;
+        String uri = request.uri();
+        if (Objects.equals(uri, "/favicon.ico")) {
+            return;
+        }
+
         // 响应hello world
         ByteBuf content = Unpooled.copiedBuffer("hello world".getBytes(CharsetUtil.UTF_8));
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, content);
