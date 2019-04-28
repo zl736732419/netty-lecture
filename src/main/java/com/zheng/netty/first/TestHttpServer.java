@@ -14,7 +14,7 @@ import io.netty.handler.codec.http.HttpServerCodec;
  * @Author zhenglian
  * @Date 2019/4/28
  */
-public class TestServer {
+public class TestHttpServer {
     public static void main(String[] args) throws Exception {
         // 线程池
         EventLoopGroup boss = new NioEventLoopGroup();
