@@ -10,7 +10,6 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.Delimiters;
-import io.netty.handler.codec.LengthFieldPrepender;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 
@@ -35,7 +34,6 @@ public class TestChatServer {
                     ChannelPipeline pipeline = ch.pipeline();
                     pipeline.addLast(new DelimiterBasedFrameDecoder(4096, Delimiters.lineDelimiter()));
                     pipeline.addLast(new StringDecoder());
-                    pipeline.addLast(new LengthFieldPrepender(4));
                     pipeline.addLast(new StringEncoder());
                     pipeline.addLast(new TestChatServerHandler());
                 }
