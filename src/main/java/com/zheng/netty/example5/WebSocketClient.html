@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Client</title>
+
+    <script type="application/javascript">
+
+        var socket;
+        if (window.WebSocket) {
+            socket = new window.WebSocket("ws://localhost:8899/ws");
+            
+            socket.onmessage = function (event) {
+                var msg = document.getElementById("clearMsg");
+                msg.value = msg.value + "\n" + event.data;
+            };
+            
+            socket.onopen = function(event) {
+                var msg = document.getElementById("clearMsg");
+                msg.value = msg.value + "\n" + "连接开启";
+            };
+            
+            socket.onclose  = function(event) {
+                var msg = document.getElementById("clearMsg");
+                msg.value = msg.value + "\n" + "失去连接";
+            };
+            
+        } else {
+            alert("浏览器不支持WebSocket!");
+        }
+        
+
+        function sendMessage() {
+            if (!socket) {
+                return;
+            }
+            
+            if (socket.readyState == WebSocket.OPEN) {
+                var msg = document.getElementById("sendMsg");
+                socket.send(msg.value);
+                msg.value = '';
+            } else {
+                alert("连接没有建立!")
+            }
+        }
+        
+        function clearMessage() {
+            document.getElementById("clearMsg").value = '';
+        }
+
+    </script>
+
+</head>
+<body>
+
+    <form onsubmit="return false">
+        <textarea id="sendMsg" rows="8" cols="30"></textarea>
+        <input type="button" id="sendBtn" value="发送" onclick="javascript:sendMessage();">
+        <h4>服务器输出:</h4>
+        <textarea id="clearMsg" rows="8" cols="30"></textarea>
+        <input type="button" id="clearBtn" value="清除" onclick="javascript:clearMessage();">
+    </form>
+
+</body>
+</html>
