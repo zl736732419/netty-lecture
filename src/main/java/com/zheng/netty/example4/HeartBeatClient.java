@@ -11,7 +11,6 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
-import io.netty.handler.timeout.IdleStateHandler;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -32,8 +31,8 @@ public class HeartBeatClient {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
-                            pipeline.addLast(new IdleStateHandler(5, 3, 10))
-                                    .addLast(new StringDecoder())
+//                            pipeline.addLast(new IdleStateHandler(5, 3, 10))
+                              pipeline.addLast(new StringDecoder())
                                     .addLast(new StringEncoder())
                                     .addLast(new HeartBeatClientHandler());
                         }
