@@ -13,6 +13,8 @@ import java.util.Date;
  * @Date 2019/5/1
  */
 public class HeartBeatServerHandler extends SimpleChannelInboundHandler<String> {
+    private int idleCount = 3;
+    private int currentCount = 0;
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
         System.out.println("收到客户端消息：" + msg);
@@ -48,8 +50,13 @@ public class HeartBeatServerHandler extends SimpleChannelInboundHandler<String> 
                     break;
             }
             System.out.println(eventType);
+            currentCount++;
             // 发生心跳检测异常，关闭连接
-            ctx.channel().close();
+            if (currentCount > idleCount) {
+                ctx.channel().close();
+            } else {
+                System.out.println("客户端连接["+ctx.channel().remoteAddress()+"]空闲：" + currentCount + "次");
+            }
         } else {
             super.userEventTriggered(ctx, evt);
         }
