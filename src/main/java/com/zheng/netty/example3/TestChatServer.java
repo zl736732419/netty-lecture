@@ -1,4 +1,4 @@
-package com.zheng.netty.third;
+package com.zheng.netty.example3;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;

@@ -1,4 +1,4 @@
-package com.zheng.netty.first;
+package com.zheng.netty.example1;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;

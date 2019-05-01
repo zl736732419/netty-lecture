@@ -1,7 +1,7 @@
-package com.zheng.netty.third;
+package com.zheng.netty.example4;
+
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -9,19 +9,19 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.DelimiterBasedFrameDecoder;
-import io.netty.handler.codec.Delimiters;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
+import io.netty.handler.timeout.IdleStateHandler;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.InetSocketAddress;
 
 /**
  * @Author zhenglian
- * @Date 2019/4/30
+ * @Date 2019/5/1
  */
-public class TestChatClient {
+public class HeartBeatClient {
     public static void main(String[] args) throws Exception {
         EventLoopGroup boss = new NioEventLoopGroup();
         try {
@@ -32,18 +32,17 @@ public class TestChatClient {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
-                            pipeline.addLast(new DelimiterBasedFrameDecoder(2048, Delimiters.lineDelimiter()))
-                                    .addLast(new StringDecoder())
+                            pipeline.addLast(new IdleStateHandler(5, 3, 10));
+                            pipeline.addLast(new StringDecoder())
                                     .addLast(new StringEncoder())
-                                    .addLast(new TestChatClientHandler());
+                                    .addLast(new HeartBeatClientHandler());
                         }
                     });
-            ChannelFuture channelFuture = bootstrap.connect("127.0.0.1", 8899).sync();
-            Channel channel = channelFuture.channel();
+            ChannelFuture connect = bootstrap.connect(new InetSocketAddress("127.0.0.1", 8899)).sync();
             System.out.println("client start...");
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             while (true) {
-                channel.writeAndFlush(reader.readLine() + "\r\n");
+                connect.channel().writeAndFlush(reader.readLine());
             }
         } finally {
             boss.shutdownGracefully();
