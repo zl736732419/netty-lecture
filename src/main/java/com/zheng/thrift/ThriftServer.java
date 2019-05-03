@@ -28,8 +28,8 @@ public class ThriftServer {
                 .maxWorkerThreads(4);
         PersonService.Processor<PersonServiceImpl> processor = new PersonService.Processor<>(new PersonServiceImpl());
         
-        args.protocolFactory(new TCompactProtocol.Factory());
         args.transportFactory(new TFramedTransport.Factory());
+        args.protocolFactory(new TCompactProtocol.Factory());
         args.processorFactory(new TProcessorFactory(processor));
         
         TServer server = new THsHaServer(args);
@@ -42,8 +42,10 @@ public class ThriftServer {
 
         PersonServiceImpl handler = new PersonServiceImpl();
         PersonService.Processor<PersonServiceImpl> processor = new PersonService.Processor<>(handler);
-
-        TServer server = new TSimpleServer(new TServer.Args(transport).processor(processor));
+        TServer.Args args = new TServer.Args(transport)
+                .processor(processor);
+        
+        TServer server = new TSimpleServer(args);
         System.out.println("server listen on 8899.");
         server.serve();
     }
