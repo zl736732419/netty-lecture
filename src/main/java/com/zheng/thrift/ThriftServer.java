@@ -17,8 +17,8 @@ import org.apache.thrift.transport.TServerTransport;
  */
 public class ThriftServer {
     public static void main(String[] args) throws Exception {
-//        server1();
-        server2();
+        server1();
+//        server2();
     }
 
     private static void server2() throws Exception {
