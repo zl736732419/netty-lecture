@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package com.zheng.protobuf;
 
-option java_package = "com.zheng.protobuf.rpc";
+option java_package = "com.zheng.protobuf.rpc.generated";
 option java_outer_classname = "StudentProto";
 option java_multiple_files = true;
 
@@ -10,6 +10,7 @@ option java_multiple_files = true;
 service StudentService {
     rpc GetRealNameByUsername(MyRequest) returns (MyResponse) {}
     rpc GetStudentsByAge(StudentRequest) returns (stream StudentResponse) {}
+    rpc GetStudentWrapperByAges(stream StudentRequest) returns (StudentResponseList) {}
 }
 
 message MyRequest {
@@ -28,4 +29,8 @@ message StudentResponse {
     string name = 1;
     int32 age = 2;
     string city = 3;
+}
+
+message StudentResponseList {
+    repeated StudentResponse students = 1;
 }

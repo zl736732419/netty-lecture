@@ -4,6 +4,7 @@ import com.zheng.protobuf.rpc.generated.MyRequest;
 import com.zheng.protobuf.rpc.generated.MyResponse;
 import com.zheng.protobuf.rpc.generated.StudentRequest;
 import com.zheng.protobuf.rpc.generated.StudentResponse;
+import com.zheng.protobuf.rpc.generated.StudentResponseList;
 import com.zheng.protobuf.rpc.generated.StudentServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -45,10 +46,58 @@ public class StudentClient {
         StudentClient client = new StudentClient("localhost", 8899);
         client.getRealNameByUsername("xiaozhang");
         client.getStudentsByAge(20);
+        client.getStudentWrapperByAges();
         client.shutdown();
     }
 
+    private void getStudentWrapperByAges() throws Exception {
+        System.out.println("getStudentWrapperByAges");
+        final CountDownLatch finishLatch = new CountDownLatch(1);
+        StreamObserver<StudentRequest> requestObserver = asyncStub.getStudentWrapperByAges(new StreamObserver<StudentResponseList>() {
+            @Override
+            public void onNext(StudentResponseList value) {
+                for (StudentResponse response : value.getStudentsList()) {
+                    System.out.println("===============================");
+                    System.out.println("name: " + response.getName());
+                    System.out.println("age: " + response.getAge());
+                    System.out.println("city: " + response.getCity());
+                }
+            }
+            
+            @Override
+            public void onError(Throwable t) {
+                finishLatch.countDown();
+                logger.log(Level.WARNING, "StudentService getStudentWrapperByAges error");
+            }
+
+            @Override
+            public void onCompleted() {
+                finishLatch.countDown();
+                logger.info("StudentService getStudentWrapperByAges success");
+            }
+        });
+        try {
+            for (int i = 0 ; i < 3; i++) {
+                requestObserver.onNext(StudentRequest.newBuilder().setAge(20 + i).build());
+                if (finishLatch.getCount() == 0) {
+                    // RPC completed or errored before we finished sending.
+                    // Sending further requests won't error, but they will just be thrown away.
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            // Cancel RPC
+            requestObserver.onError(e);
+        }
+        requestObserver.onCompleted();
+        // Receiving happens asynchronously
+        if (!finishLatch.await(1, TimeUnit.MINUTES)) {
+            warning("StudentService getStudentWrapperByAges can not finish within 1 minutes");
+        }
+    }
+
     private void getStudentsByAge(int age) throws Exception {
+        System.out.println("getStudentsByAge");
         StudentRequest request = StudentRequest.newBuilder().setAge(20).build();
         final CountDownLatch finishLatch = new CountDownLatch(1);
         asyncStub.getStudentsByAge(request, new StreamObserver<StudentResponse>() {
@@ -62,13 +111,13 @@ public class StudentClient {
 
             @Override
             public void onError(Throwable t) {
-                warning("StudentService Failed: {0}", Status.fromThrowable(t));
+                warning("StudentService getStudentsByAge Failed: {0}", Status.fromThrowable(t));
                 finishLatch.countDown();
             }
 
             @Override
             public void onCompleted() {
-                info("Finished StudentService");
+                info("Finished StudentService getStudentsByAge");
                 finishLatch.countDown();
             }
         });
@@ -84,6 +133,7 @@ public class StudentClient {
     }
 
     private void getRealNameByUsername(String username) {
+        System.out.println("getRealNameByUsername");
         MyRequest request = MyRequest.newBuilder().setUsername(username).build();
         MyResponse response = blockingStub.getRealNameByUsername(request);
         System.out.println("client response: " + response.getRealname());
