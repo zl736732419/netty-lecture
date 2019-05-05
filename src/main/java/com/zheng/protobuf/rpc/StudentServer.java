@@ -1,4 +1,4 @@
-package com.zheng.protobuf.rpc.impl;
+package com.zheng.protobuf.rpc;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;

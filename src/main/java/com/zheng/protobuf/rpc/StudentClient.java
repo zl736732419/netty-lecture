@@ -1,10 +1,10 @@
-package com.zheng.protobuf.rpc.impl;
+package com.zheng.protobuf.rpc;
 
-import com.zheng.protobuf.rpc.MyRequest;
-import com.zheng.protobuf.rpc.MyResponse;
-import com.zheng.protobuf.rpc.StudentRequest;
-import com.zheng.protobuf.rpc.StudentResponse;
-import com.zheng.protobuf.rpc.StudentServiceGrpc;
+import com.zheng.protobuf.rpc.generated.MyRequest;
+import com.zheng.protobuf.rpc.generated.MyResponse;
+import com.zheng.protobuf.rpc.generated.StudentRequest;
+import com.zheng.protobuf.rpc.generated.StudentResponse;
+import com.zheng.protobuf.rpc.generated.StudentServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.Status;

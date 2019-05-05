@@ -1,18 +1,13 @@
-package com.zheng.protobuf.rpc;
+package com.zheng.protobuf.rpc.generated;
 
 import static io.grpc.MethodDescriptor.generateFullMethodName;
-import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
 import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
 import static io.grpc.stub.ClientCalls.asyncUnaryCall;
 import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
 import static io.grpc.stub.ClientCalls.blockingUnaryCall;
 import static io.grpc.stub.ClientCalls.futureUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
 import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
 import static io.grpc.stub.ServerCalls.asyncUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
 import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 /**
@@ -30,30 +25,30 @@ public final class StudentServiceGrpc {
   public static final String SERVICE_NAME = "com.zheng.protobuf.StudentService";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<com.zheng.protobuf.rpc.MyRequest,
-      com.zheng.protobuf.rpc.MyResponse> getGetRealNameByUsernameMethod;
+  private static volatile io.grpc.MethodDescriptor<MyRequest,
+          MyResponse> getGetRealNameByUsernameMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "GetRealNameByUsername",
-      requestType = com.zheng.protobuf.rpc.MyRequest.class,
-      responseType = com.zheng.protobuf.rpc.MyResponse.class,
+      requestType = MyRequest.class,
+      responseType = MyResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<com.zheng.protobuf.rpc.MyRequest,
-      com.zheng.protobuf.rpc.MyResponse> getGetRealNameByUsernameMethod() {
-    io.grpc.MethodDescriptor<com.zheng.protobuf.rpc.MyRequest, com.zheng.protobuf.rpc.MyResponse> getGetRealNameByUsernameMethod;
+  public static io.grpc.MethodDescriptor<MyRequest,
+          MyResponse> getGetRealNameByUsernameMethod() {
+    io.grpc.MethodDescriptor<MyRequest, MyResponse> getGetRealNameByUsernameMethod;
     if ((getGetRealNameByUsernameMethod = StudentServiceGrpc.getGetRealNameByUsernameMethod) == null) {
       synchronized (StudentServiceGrpc.class) {
         if ((getGetRealNameByUsernameMethod = StudentServiceGrpc.getGetRealNameByUsernameMethod) == null) {
           StudentServiceGrpc.getGetRealNameByUsernameMethod = getGetRealNameByUsernameMethod = 
-              io.grpc.MethodDescriptor.<com.zheng.protobuf.rpc.MyRequest, com.zheng.protobuf.rpc.MyResponse>newBuilder()
+              io.grpc.MethodDescriptor.<MyRequest, MyResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(
                   "com.zheng.protobuf.StudentService", "GetRealNameByUsername"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.zheng.protobuf.rpc.MyRequest.getDefaultInstance()))
+                  MyRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.zheng.protobuf.rpc.MyResponse.getDefaultInstance()))
+                  MyResponse.getDefaultInstance()))
                   .setSchemaDescriptor(new StudentServiceMethodDescriptorSupplier("GetRealNameByUsername"))
                   .build();
           }
@@ -62,30 +57,30 @@ public final class StudentServiceGrpc {
      return getGetRealNameByUsernameMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<com.zheng.protobuf.rpc.StudentRequest,
-      com.zheng.protobuf.rpc.StudentResponse> getGetStudentsByAgeMethod;
+  private static volatile io.grpc.MethodDescriptor<StudentRequest,
+          StudentResponse> getGetStudentsByAgeMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "GetStudentsByAge",
-      requestType = com.zheng.protobuf.rpc.StudentRequest.class,
-      responseType = com.zheng.protobuf.rpc.StudentResponse.class,
+      requestType = StudentRequest.class,
+      responseType = StudentResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
-  public static io.grpc.MethodDescriptor<com.zheng.protobuf.rpc.StudentRequest,
-      com.zheng.protobuf.rpc.StudentResponse> getGetStudentsByAgeMethod() {
-    io.grpc.MethodDescriptor<com.zheng.protobuf.rpc.StudentRequest, com.zheng.protobuf.rpc.StudentResponse> getGetStudentsByAgeMethod;
+  public static io.grpc.MethodDescriptor<StudentRequest,
+          StudentResponse> getGetStudentsByAgeMethod() {
+    io.grpc.MethodDescriptor<StudentRequest, StudentResponse> getGetStudentsByAgeMethod;
     if ((getGetStudentsByAgeMethod = StudentServiceGrpc.getGetStudentsByAgeMethod) == null) {
       synchronized (StudentServiceGrpc.class) {
         if ((getGetStudentsByAgeMethod = StudentServiceGrpc.getGetStudentsByAgeMethod) == null) {
           StudentServiceGrpc.getGetStudentsByAgeMethod = getGetStudentsByAgeMethod = 
-              io.grpc.MethodDescriptor.<com.zheng.protobuf.rpc.StudentRequest, com.zheng.protobuf.rpc.StudentResponse>newBuilder()
+              io.grpc.MethodDescriptor.<StudentRequest, StudentResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
               .setFullMethodName(generateFullMethodName(
                   "com.zheng.protobuf.StudentService", "GetStudentsByAge"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.zheng.protobuf.rpc.StudentRequest.getDefaultInstance()))
+                  StudentRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  com.zheng.protobuf.rpc.StudentResponse.getDefaultInstance()))
+                  StudentResponse.getDefaultInstance()))
                   .setSchemaDescriptor(new StudentServiceMethodDescriptorSupplier("GetStudentsByAge"))
                   .build();
           }
@@ -126,15 +121,15 @@ public final class StudentServiceGrpc {
 
     /**
      */
-    public void getRealNameByUsername(com.zheng.protobuf.rpc.MyRequest request,
-        io.grpc.stub.StreamObserver<com.zheng.protobuf.rpc.MyResponse> responseObserver) {
+    public void getRealNameByUsername(MyRequest request,
+                                      io.grpc.stub.StreamObserver<MyResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getGetRealNameByUsernameMethod(), responseObserver);
     }
 
     /**
      */
-    public void getStudentsByAge(com.zheng.protobuf.rpc.StudentRequest request,
-        io.grpc.stub.StreamObserver<com.zheng.protobuf.rpc.StudentResponse> responseObserver) {
+    public void getStudentsByAge(StudentRequest request,
+                                 io.grpc.stub.StreamObserver<StudentResponse> responseObserver) {
       asyncUnimplementedUnaryCall(getGetStudentsByAgeMethod(), responseObserver);
     }
 
@@ -144,15 +139,15 @@ public final class StudentServiceGrpc {
             getGetRealNameByUsernameMethod(),
             asyncUnaryCall(
               new MethodHandlers<
-                com.zheng.protobuf.rpc.MyRequest,
-                com.zheng.protobuf.rpc.MyResponse>(
+                      MyRequest,
+                      MyResponse>(
                   this, METHODID_GET_REAL_NAME_BY_USERNAME)))
           .addMethod(
             getGetStudentsByAgeMethod(),
             asyncServerStreamingCall(
               new MethodHandlers<
-                com.zheng.protobuf.rpc.StudentRequest,
-                com.zheng.protobuf.rpc.StudentResponse>(
+                      StudentRequest,
+                      StudentResponse>(
                   this, METHODID_GET_STUDENTS_BY_AGE)))
           .build();
     }
@@ -181,16 +176,16 @@ public final class StudentServiceGrpc {
 
     /**
      */
-    public void getRealNameByUsername(com.zheng.protobuf.rpc.MyRequest request,
-        io.grpc.stub.StreamObserver<com.zheng.protobuf.rpc.MyResponse> responseObserver) {
+    public void getRealNameByUsername(MyRequest request,
+                                      io.grpc.stub.StreamObserver<MyResponse> responseObserver) {
       asyncUnaryCall(
           getChannel().newCall(getGetRealNameByUsernameMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
      */
-    public void getStudentsByAge(com.zheng.protobuf.rpc.StudentRequest request,
-        io.grpc.stub.StreamObserver<com.zheng.protobuf.rpc.StudentResponse> responseObserver) {
+    public void getStudentsByAge(StudentRequest request,
+                                 io.grpc.stub.StreamObserver<StudentResponse> responseObserver) {
       asyncServerStreamingCall(
           getChannel().newCall(getGetStudentsByAgeMethod(), getCallOptions()), request, responseObserver);
     }
@@ -219,15 +214,15 @@ public final class StudentServiceGrpc {
 
     /**
      */
-    public com.zheng.protobuf.rpc.MyResponse getRealNameByUsername(com.zheng.protobuf.rpc.MyRequest request) {
+    public MyResponse getRealNameByUsername(MyRequest request) {
       return blockingUnaryCall(
           getChannel(), getGetRealNameByUsernameMethod(), getCallOptions(), request);
     }
 
     /**
      */
-    public java.util.Iterator<com.zheng.protobuf.rpc.StudentResponse> getStudentsByAge(
-        com.zheng.protobuf.rpc.StudentRequest request) {
+    public java.util.Iterator<StudentResponse> getStudentsByAge(
+        StudentRequest request) {
       return blockingServerStreamingCall(
           getChannel(), getGetStudentsByAgeMethod(), getCallOptions(), request);
     }
@@ -256,8 +251,8 @@ public final class StudentServiceGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<com.zheng.protobuf.rpc.MyResponse> getRealNameByUsername(
-        com.zheng.protobuf.rpc.MyRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<MyResponse> getRealNameByUsername(
+        MyRequest request) {
       return futureUnaryCall(
           getChannel().newCall(getGetRealNameByUsernameMethod(), getCallOptions()), request);
     }
@@ -284,12 +279,12 @@ public final class StudentServiceGrpc {
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
         case METHODID_GET_REAL_NAME_BY_USERNAME:
-          serviceImpl.getRealNameByUsername((com.zheng.protobuf.rpc.MyRequest) request,
-              (io.grpc.stub.StreamObserver<com.zheng.protobuf.rpc.MyResponse>) responseObserver);
+          serviceImpl.getRealNameByUsername((MyRequest) request,
+              (io.grpc.stub.StreamObserver<MyResponse>) responseObserver);
           break;
         case METHODID_GET_STUDENTS_BY_AGE:
-          serviceImpl.getStudentsByAge((com.zheng.protobuf.rpc.StudentRequest) request,
-              (io.grpc.stub.StreamObserver<com.zheng.protobuf.rpc.StudentResponse>) responseObserver);
+          serviceImpl.getStudentsByAge((StudentRequest) request,
+              (io.grpc.stub.StreamObserver<StudentResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -313,7 +308,7 @@ public final class StudentServiceGrpc {
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
-      return com.zheng.protobuf.rpc.StudentProto.getDescriptor();
+      return StudentProto.getDescriptor();
     }
 
     @java.lang.Override
