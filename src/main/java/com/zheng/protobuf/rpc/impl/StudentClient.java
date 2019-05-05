@@ -35,9 +35,10 @@ public class StudentClient {
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         StudentClient client = new StudentClient("localhost", 8899);
         client.getRealNameByUsername("xiaozhang");
+        client.shutdown();
     }
 
     private void getRealNameByUsername(String username) {
