@@ -11,6 +11,7 @@ service StudentService {
     rpc GetRealNameByUsername(MyRequest) returns (MyResponse) {}
     rpc GetStudentsByAge(StudentRequest) returns (stream StudentResponse) {}
     rpc GetStudentWrapperByAges(stream StudentRequest) returns (StudentResponseList) {}
+    rpc GetStudentsByAges(stream StudentRequest) returns (stream StudentResponse) {}
 }
 
 message MyRequest {
@@ -34,3 +35,4 @@ message StudentResponse {
 message StudentResponseList {
     repeated StudentResponse students = 1;
 }
+

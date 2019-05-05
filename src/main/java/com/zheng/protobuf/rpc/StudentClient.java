@@ -47,7 +47,46 @@ public class StudentClient {
         client.getRealNameByUsername("xiaozhang");
         client.getStudentsByAge(20);
         client.getStudentWrapperByAges();
+        client.getStudentsByAges();
         client.shutdown();
+    }
+
+    private void getStudentsByAges() throws Exception {
+        System.out.println("getStudentsByAges");
+        final CountDownLatch latch = new CountDownLatch(1);
+        StreamObserver<StudentRequest> requestObserver = asyncStub.getStudentsByAges(new StreamObserver<StudentResponse>() {
+            @Override
+            public void onNext(StudentResponse value) {
+                System.out.println("===================");
+                System.out.println("name: " + value.getName());
+                System.out.println("age: " + value.getAge());
+                System.out.println("city: " + value.getCity());
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                logger.warning("StudentService getStudentsByAges error");
+                latch.countDown();
+            }
+
+            @Override
+            public void onCompleted() {
+                logger.info("StudentService getStudentsByAges success");
+                latch.countDown();
+            }
+        });
+        for (int i = 0; i < 3; i++) {
+            if (latch.getCount() == 0) {
+                // finished or error
+                return;
+            }
+            requestObserver.onNext(StudentRequest.newBuilder().setAge(20+i).build());
+        }
+        requestObserver.onCompleted();
+        
+        if (!latch.await(1, TimeUnit.MINUTES)) {
+            logger.warning("StudentService getStudentsByAges can not finished 1 minutes");
+        }
     }
 
     private void getStudentWrapperByAges() throws Exception {

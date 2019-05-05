@@ -23,6 +23,7 @@ public class StudentServiceImpl extends StudentServiceGrpc.StudentServiceImplBas
 
     @Override
     public void getRealNameByUsername(MyRequest request, StreamObserver<MyResponse> responseObserver) {
+        System.out.println("getRealNameByUsername");
         System.out.println("server params: " + request.getUsername());
         responseObserver.onNext(MyResponse.newBuilder().setRealname("李四").build());
         responseObserver.onCompleted();
@@ -30,6 +31,7 @@ public class StudentServiceImpl extends StudentServiceGrpc.StudentServiceImplBas
 
     @Override
     public void getStudentsByAge(StudentRequest request, StreamObserver<StudentResponse> responseObserver) {
+        System.out.println("getStudentsByAge");
         System.out.println("server params: " + request.getAge());
         for (int i = 0; i < 3; i++) {
             responseObserver.onNext(StudentResponse.newBuilder().setName("小张" + i).setAge(20+i).setCity("深圳").build());
@@ -39,6 +41,7 @@ public class StudentServiceImpl extends StudentServiceGrpc.StudentServiceImplBas
 
     @Override
     public StreamObserver<StudentRequest> getStudentWrapperByAges(StreamObserver<StudentResponseList> responseObserver) {
+        System.out.println("getStudentWrapperByAges");
         return new StreamObserver<StudentRequest>() {
 
             final long startTime = System.nanoTime();
@@ -61,6 +64,28 @@ public class StudentServiceImpl extends StudentServiceGrpc.StudentServiceImplBas
                 responseObserver.onCompleted();
                 long seconds = NANOSECONDS.toSeconds(System.nanoTime() - startTime);
                 System.out.println("cost " + seconds + "s");
+            }
+        };
+    }
+
+    @Override
+    public StreamObserver<StudentRequest> getStudentsByAges(StreamObserver<StudentResponse> responseObserver) {
+        System.out.println("getStudentsByAges");
+        return new StreamObserver<StudentRequest>() {
+            @Override
+            public void onNext(StudentRequest value) {
+                System.out.println("server params: " + value.getAge());
+                responseObserver.onNext(StudentResponse.newBuilder().setName("张三").setAge(value.getAge()).setCity("深圳").build());
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                logger.log(Level.WARNING, "StudentService getStudentsByAges cancelled");
+            }
+
+            @Override
+            public void onCompleted() {
+                responseObserver.onCompleted();
             }
         };
     }

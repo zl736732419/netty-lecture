@@ -54,7 +54,7 @@ public final class StudentProto {
       "age\030\001 \001(\005\":\n\017StudentResponse\022\014\n\004name\030\001 \001" +
       "(\t\022\013\n\003age\030\002 \001(\005\022\014\n\004city\030\003 \001(\t\"L\n\023Student" +
       "ResponseList\0225\n\010students\030\001 \003(\0132#.com.zhe" +
-      "ng.protobuf.StudentResponse2\267\002\n\016StudentS" +
+      "ng.protobuf.StudentResponse2\233\003\n\016StudentS" +
       "ervice\022X\n\025GetRealNameByUsername\022\035.com.zh" +
       "eng.protobuf.MyRequest\032\036.com.zheng.proto" +
       "buf.MyResponse\"\000\022_\n\020GetStudentsByAge\022\".c" +
@@ -62,9 +62,11 @@ public final class StudentProto {
       "heng.protobuf.StudentResponse\"\0000\001\022j\n\027Get" +
       "StudentWrapperByAges\022\".com.zheng.protobu" +
       "f.StudentRequest\032\'.com.zheng.protobuf.St" +
-      "udentResponseList\"\000(\001B2\n com.zheng.proto" +
-      "buf.rpc.generatedB\014StudentProtoP\001b\006proto" +
-      "3"
+      "udentResponseList\"\000(\001\022b\n\021GetStudentsByAg" +
+      "es\022\".com.zheng.protobuf.StudentRequest\032#" +
+      ".com.zheng.protobuf.StudentResponse\"\000(\0010" +
+      "\001B2\n com.zheng.protobuf.rpc.generatedB\014S" +
+      "tudentProtoP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
