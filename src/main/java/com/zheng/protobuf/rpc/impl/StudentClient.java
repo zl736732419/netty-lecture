@@ -2,11 +2,17 @@ package com.zheng.protobuf.rpc.impl;
 
 import com.zheng.protobuf.rpc.MyRequest;
 import com.zheng.protobuf.rpc.MyResponse;
+import com.zheng.protobuf.rpc.StudentRequest;
+import com.zheng.protobuf.rpc.StudentResponse;
 import com.zheng.protobuf.rpc.StudentServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.Status;
+import io.grpc.stub.StreamObserver;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -38,7 +44,43 @@ public class StudentClient {
     public static void main(String[] args) throws Exception {
         StudentClient client = new StudentClient("localhost", 8899);
         client.getRealNameByUsername("xiaozhang");
+        client.getStudentsByAge(20);
         client.shutdown();
+    }
+
+    private void getStudentsByAge(int age) throws Exception {
+        StudentRequest request = StudentRequest.newBuilder().setAge(20).build();
+        final CountDownLatch finishLatch = new CountDownLatch(1);
+        asyncStub.getStudentsByAge(request, new StreamObserver<StudentResponse>() {
+            @Override
+            public void onNext(StudentResponse value) {
+                System.out.println("===============================");
+                System.out.println("name: " + value.getName());
+                System.out.println("age: " + value.getAge());
+                System.out.println("city: " + value.getCity());
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                warning("StudentService Failed: {0}", Status.fromThrowable(t));
+                finishLatch.countDown();
+            }
+
+            @Override
+            public void onCompleted() {
+                info("Finished StudentService");
+                finishLatch.countDown();
+            }
+        });
+        finishLatch.await();
+    }
+
+    private void info(String msg, Object... params) {
+        logger.log(Level.INFO, msg, params);
+    }
+
+    private void warning(String msg, Object... params) {
+        logger.log(Level.WARNING, msg, params);
     }
 
     private void getRealNameByUsername(String username) {
