@@ -44,11 +44,18 @@ protobuf {
             artifact = 'io.grpc:protoc-gen-grpc-java:1.20.0'
         }
     }
+    generatedFilesBaseDir = "src"
     generateProtoTasks {
         all()*.plugins {
-            grpc {}
+            grpc {
+                outputSubDir = 'java'
+            }
         }
     }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
 }
 
 sourceSets {
@@ -58,11 +65,4 @@ sourceSets {
             include '**/*.proto'
         }
     }
-    test {
-        proto {
-            srcDir 'src/test/resources/protobuf'
-            include "**/*.proto"
-        }
-    }
-    
 }

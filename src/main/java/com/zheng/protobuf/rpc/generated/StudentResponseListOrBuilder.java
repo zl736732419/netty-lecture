@@ -10,12 +10,12 @@ public interface StudentResponseListOrBuilder extends
   /**
    * <code>repeated .com.zheng.protobuf.StudentResponse students = 1;</code>
    */
-  java.util.List<StudentResponse> 
+  java.util.List<com.zheng.protobuf.rpc.generated.StudentResponse> 
       getStudentsList();
   /**
    * <code>repeated .com.zheng.protobuf.StudentResponse students = 1;</code>
    */
-  StudentResponse getStudents(int index);
+  com.zheng.protobuf.rpc.generated.StudentResponse getStudents(int index);
   /**
    * <code>repeated .com.zheng.protobuf.StudentResponse students = 1;</code>
    */
@@ -23,11 +23,11 @@ public interface StudentResponseListOrBuilder extends
   /**
    * <code>repeated .com.zheng.protobuf.StudentResponse students = 1;</code>
    */
-  java.util.List<? extends StudentResponseOrBuilder> 
+  java.util.List<? extends com.zheng.protobuf.rpc.generated.StudentResponseOrBuilder> 
       getStudentsOrBuilderList();
   /**
    * <code>repeated .com.zheng.protobuf.StudentResponse students = 1;</code>
    */
-  StudentResponseOrBuilder getStudentsOrBuilder(
-          int index);
+  com.zheng.protobuf.rpc.generated.StudentResponseOrBuilder getStudentsOrBuilder(
+      int index);
 }
