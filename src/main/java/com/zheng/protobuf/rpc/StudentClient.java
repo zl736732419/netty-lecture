@@ -44,9 +44,9 @@ public class StudentClient {
     
     public static void main(String[] args) throws Exception {
         StudentClient client = new StudentClient("localhost", 8899);
-        client.getRealNameByUsername("xiaozhang");
-        client.getStudentsByAge(20);
-        client.getStudentWrapperByAges();
+//        client.getRealNameByUsername("xiaozhang");
+//        client.getStudentsByAge(20);
+//        client.getStudentWrapperByAges();
         client.getStudentsByAges();
         client.shutdown();
     }

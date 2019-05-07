@@ -3,3 +3,5 @@
 /build/
 /.idea/
 /out/
+/src/main/resources/nodejs/node_modules/
+/src/main/resources/nodejs/package-lock.json
