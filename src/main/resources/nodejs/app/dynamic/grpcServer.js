@@ -19,6 +19,19 @@ server.addService(studentServiceProto.StudentService.service, {
     GetStudentsByAges: GetStudentsByAges
 });
 
+/* 
+    总结
+    对于grpc提供的四种方法可以分为两类：单响应和多响应
+    单响应方法参数(call, callback)，通过call.request对象来获取请求参数，callback返回单个响应值
+    callback(err, responseObj);
+    多响应方法参数(call), 通过call注册data事件获取流请求消息，通过call.request获取单个请求消息
+    通过call.write响应消息
+    call.on('data', function(request){});
+    通过end通知客户端消息已经响应完毕
+    call.on('end', function() {});
+    call.write(responseObj)
+ */
+
 function GetStudentsByAge(call) {
     var age = call.request.age;
     console.log("request: " + age);
