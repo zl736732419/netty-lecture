@@ -1,5 +1,6 @@
 package com.zheng.nio;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.net.URI;
 import java.nio.ByteBuffer;
@@ -14,7 +15,49 @@ import java.nio.file.Paths;
 public class FileChannelTest {
     public static void main(String[] args) throws Exception {
 //        read();
-        write();
+//        write();
+        readWrite();
+    }
+
+    private static void readWrite() throws Exception {
+        FileInputStream input = new FileInputStream("src/main/resources/nio/nio.txt");
+        FileOutputStream output = new FileOutputStream("src/main/resources/nio/nio_out.txt");
+
+        FileChannel inputChannel = input.getChannel();
+        FileChannel outputChannel = output.getChannel();
+        
+        ByteBuffer buffer = ByteBuffer.allocate(512);
+        
+        int length;
+        while(true) {
+            // 清空buffer准备进行一次数据读取操作，
+            // 没有这行会导致死循环，当positon = limit时，调用inputChannel.read()时返回0而不是-1
+            /*
+                参见源码 IOUtil.class
+                readIntoNativeBuffer() {
+                    ...
+                    int var7 = var5 <= var6 ? var6 - var5 : 0;
+                    if (var7 == 0) {
+                        return 0;
+                    }
+                    ...
+                }
+                
+             */
+            
+            buffer.clear(); 
+            
+            length = inputChannel.read(buffer);
+            if (length == -1) {
+                break;
+            }
+            
+            buffer.flip();
+            outputChannel.write(buffer);
+        }
+        System.out.println("file read finished!");
+        inputChannel.close();
+        outputChannel.close();
     }
 
     private static void write() throws Exception {
