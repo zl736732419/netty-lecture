@@ -41,6 +41,9 @@ public class NioSocketTest {
             if (select <= 0) {
                 continue;
             }
+            
+            System.out.println("keys: " + selector.keys());
+            
             Set<SelectionKey> selectionKeys = selector.selectedKeys();
             Iterator<SelectionKey> iterator = selectionKeys.iterator();
             while (iterator.hasNext()) {
@@ -71,6 +74,7 @@ public class NioSocketTest {
                         socketChannel.write(buffer);
                     }
                     System.out.println("读取: " + byteRead + "字节，客户端: " + socketChannel.getRemoteAddress());
+                    // 注意当客户端断开连接时，原来的keys中还是存在key,但是这个key已经失效了，需要cancel
                     if (read == -1) {
                         key.cancel();
                         System.out.println("客户端" + socketChannel.getRemoteAddress() + "已关闭连接");
