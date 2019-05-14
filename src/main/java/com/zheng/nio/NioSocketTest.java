@@ -49,38 +49,46 @@ public class NioSocketTest {
             while (iterator.hasNext()) {
                 SelectionKey key = iterator.next();
                 if (key.isAcceptable()) {
-                    iterator.remove();
-                    ServerSocketChannel serverSocketChannel = (ServerSocketChannel) key.channel();
-                    SocketChannel socketChannel = serverSocketChannel.accept();
-                    socketChannel.configureBlocking(false);
-                    socketChannel.register(selector, SelectionKey.OP_READ);
-                    System.out.println("客户端: " + socketChannel.getRemoteAddress() + "已建立连接");
+                    accept(key, selector);
                 } else if (key.isReadable()) {
-                    iterator.remove();
-                    SocketChannel socketChannel = (SocketChannel) key.channel();
-                    ByteBuffer buffer = ByteBuffer.allocate(512);
-                    int byteRead = 0;
-                    int read;
-                    while (true) {
-                        buffer.clear();
-                        read = socketChannel.read(buffer);
-                        if (read <= 0) {
-                            break;
-                        }
-                        
-                        byteRead += read;
-                        
-                        buffer.flip();
-                        socketChannel.write(buffer);
-                    }
-                    System.out.println("读取: " + byteRead + "字节，客户端: " + socketChannel.getRemoteAddress());
-                    // 注意当客户端断开连接时，原来的keys中还是存在key,但是这个key已经失效了，需要cancel
-                    if (read == -1) {
-                        key.cancel();
-                        System.out.println("客户端" + socketChannel.getRemoteAddress() + "已关闭连接");
-                    }
+                    read(key);
                 }
+                // 处理完事件后需要将其从对应的集合中删除
+                iterator.remove();
             }
         }
+    }
+
+    private static void read(SelectionKey key) throws Exception {
+        SocketChannel socketChannel = (SocketChannel) key.channel();
+        ByteBuffer buffer = ByteBuffer.allocate(512);
+        int byteRead = 0;
+        int read;
+        while (true) {
+            buffer.clear();
+            read = socketChannel.read(buffer);
+            if (read <= 0) {
+                break;
+            }
+
+            byteRead += read;
+
+            buffer.flip();
+            socketChannel.write(buffer);
+        }
+        System.out.println("读取: " + byteRead + "字节，客户端: " + socketChannel.getRemoteAddress());
+        // 注意当客户端断开连接时，原来的keys中还是存在key,但是这个key已经失效了，需要cancel
+        if (read == -1) {
+            key.cancel();
+            System.out.println("客户端" + socketChannel.getRemoteAddress() + "已关闭连接");
+        }
+    }
+
+    private static void accept(SelectionKey key, Selector selector) throws Exception {
+        ServerSocketChannel serverSocketChannel = (ServerSocketChannel) key.channel();
+        SocketChannel socketChannel = serverSocketChannel.accept();
+        socketChannel.configureBlocking(false);
+        socketChannel.register(selector, SelectionKey.OP_READ);
+        System.out.println("客户端: " + socketChannel.getRemoteAddress() + "已建立连接");
     }
 }
