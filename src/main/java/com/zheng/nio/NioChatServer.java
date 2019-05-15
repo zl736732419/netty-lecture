@@ -6,6 +6,7 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -43,25 +44,30 @@ public class NioChatServer {
         }
     }
 
-    private static void handleRead(SelectionKey key) throws Exception {
+    private static void handleRead(SelectionKey key) {
         SocketChannel client = (SocketChannel) key.channel();
         ByteBuffer buffer = ByteBuffer.allocate(512);
         int read;
-        while (true) {
-            buffer.clear();
-            read = client.read(buffer);
-            if (read <= 0) {
-                break;
+        try {
+            while (true) {
+                buffer.clear();
+                read = client.read(buffer);
+                if (read <= 0) {
+                    break;
+                }
+                buffer.flip();
+                String message = new String(buffer.array(), 0, buffer.limit(), StandardCharsets.UTF_8);
+                System.out.println("客户端【"+client.getRemoteAddress()+"】: " + message);
+                publishMsg(client, message);
             }
-            buffer.flip();
-            String message = new String(buffer.array(), 0, buffer.limit());
-            System.out.println("客户端【"+client.getRemoteAddress()+"】: " + message);
-            publishMsg(client, message);
-        }
-        if (read == -1) { // 客户端关闭
+            if (read == -1) { // 客户端关闭
+                key.cancel();
+                clients.remove(client);
+                System.out.println("客户端【"+client.getRemoteAddress()+"】离开了");
+            }
+        }catch (Exception e) {
+            System.out.println(e.getLocalizedMessage());
             key.cancel();
-            clients.remove(client);
-            System.out.println("客户端【"+client.getRemoteAddress()+"】离开了");
         }
     }
 
@@ -77,8 +83,7 @@ public class NioChatServer {
             builder.append("】: ");
             builder.append(message);
             ByteBuffer buffer = ByteBuffer.wrap(builder.toString().getBytes());
-//            ByteBuffer buffer = ByteBuffer.allocate(512);
-            buffer.put(builder.toString().getBytes());
+            buffer.put(builder.toString().getBytes(StandardCharsets.UTF_8));
             buffer.flip();
             c.write(buffer);
         }
