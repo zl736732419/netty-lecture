@@ -16,7 +16,27 @@ public class FileChannelTest {
     public static void main(String[] args) throws Exception {
 //        read();
 //        write();
-        readWrite();
+//        readWrite();
+//        transferTo();
+        transferFrom();
+    }
+
+    private static void transferFrom() throws Exception {
+        FileInputStream input = new FileInputStream("src/main/resources/nio/nio.txt");
+        FileOutputStream output = new FileOutputStream("src/main/resources/nio/nio_tran1.txt");
+
+        FileChannel inputChannel = input.getChannel();
+        FileChannel outputChannel = output.getChannel();
+        outputChannel.transferFrom(inputChannel, 0, 5);
+    }
+
+    private static void transferTo() throws Exception {
+        FileInputStream input = new FileInputStream("src/main/resources/nio/nio.txt");
+        FileOutputStream output = new FileOutputStream("src/main/resources/nio/nio_tran.txt");
+
+        FileChannel outputChannel = output.getChannel();
+        FileChannel inputChannel = input.getChannel();
+        inputChannel.transferTo(0, 5, outputChannel);
     }
 
     private static void readWrite() throws Exception {

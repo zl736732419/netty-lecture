@@ -67,10 +67,10 @@ public class NioChatClient {
         SocketChannel socketChannel = (SocketChannel) key.channel();
         if (socketChannel.isConnectionPending()) {
             socketChannel.finishConnect();
-            System.out.println("服务器连接成功");
-            socketChannel.register(selector, SelectionKey.OP_READ);
-            executorService.submit(new ChatTask(socketChannel, key));
         }
+        System.out.println("服务器连接成功");
+        socketChannel.register(selector, SelectionKey.OP_READ);
+        executorService.submit(new ChatTask(socketChannel, key));
     }
     
     private static class ChatTask implements Runnable {
