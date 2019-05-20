@@ -38,5 +38,6 @@ public class TestHttpServerHandler extends SimpleChannelInboundHandler<HttpMessa
         response.headers().add(HttpHeaderNames.CONTENT_TYPE, "text/plain");
         response.headers().add(HttpHeaderNames.CONTENT_LENGTH, content.readableBytes());
         ctx.writeAndFlush(response);
+        ctx.close();
     }
 }
