@@ -19,7 +19,9 @@ import io.netty.handler.codec.string.StringEncoder;
  */
 public class TestSocketServer {
     public static void main(String[] args) throws Exception {
+        // 接受客户端连接
         EventLoopGroup boss = new NioEventLoopGroup();
+        // 连接建立好后，进行连接处理
         EventLoopGroup worker = new NioEventLoopGroup();
 
         try {
