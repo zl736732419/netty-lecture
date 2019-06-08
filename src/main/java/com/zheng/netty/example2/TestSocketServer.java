@@ -12,6 +12,8 @@ import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 
 /**
  * @Author zhenglian
@@ -26,20 +28,20 @@ public class TestSocketServer {
 
         try {
             ServerBootstrap bootstrap = new ServerBootstrap();
-            bootstrap.group(boss, worker);
-            bootstrap.channel(NioServerSocketChannel.class);
-            
-            bootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
-                @Override
-                protected void initChannel(SocketChannel ch) throws Exception {
-                    ChannelPipeline pipeline = ch.pipeline();
-                    pipeline.addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4, 0, 4));
-                    pipeline.addLast(new StringDecoder());
-                    pipeline.addLast(new LengthFieldPrepender(4));
-                    pipeline.addLast(new StringEncoder());
-                    pipeline.addLast(new TestSocketServerHandler());
-                }
-            });
+            bootstrap.group(boss, worker)
+                    .channel(NioServerSocketChannel.class)
+                    .handler(new LoggingHandler(LogLevel.INFO))
+                    .childHandler(new ChannelInitializer<SocketChannel>() {
+                        @Override
+                        protected void initChannel(SocketChannel ch) throws Exception {
+                            ChannelPipeline pipeline = ch.pipeline();
+                            pipeline.addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4, 0, 4));
+                            pipeline.addLast(new StringDecoder());
+                            pipeline.addLast(new LengthFieldPrepender(4));
+                            pipeline.addLast(new StringEncoder());
+                            pipeline.addLast(new TestSocketServerHandler());
+                        }
+                    });
             ChannelFuture channelFuture = bootstrap.bind(8899).sync();
             System.out.println("server listen on 8899");
             channelFuture.channel().closeFuture().sync();
