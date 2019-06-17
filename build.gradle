@@ -10,6 +10,7 @@ buildscript {
 plugins {
     id 'java'
     id 'com.google.protobuf' version "0.8.8"
+    id "io.freefair.lombok" version "3.7.4"
 }
 
 group 'com.zheng'
@@ -31,7 +32,13 @@ dependencies {
             
             "io.grpc:grpc-netty-shaded:1.20.0",
             "io.grpc:grpc-protobuf:1.20.0",
-            "io.grpc:grpc-stub:1.20.0"
+            "io.grpc:grpc-stub:1.20.0",
+    )
+    compileOnly(
+            'org.projectlombok:lombok:1.18.6'
+    )
+    annotationProcessor(
+            'org.projectlombok:lombok:1.18.6'
     )
 }
 
