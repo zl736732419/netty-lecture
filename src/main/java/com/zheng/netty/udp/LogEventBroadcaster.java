@@ -64,7 +64,8 @@ public class LogEventBroadcaster {
     
     public static void main(String[] args) {
         InetSocketAddress address = new InetSocketAddress("255.255.255.255", 8888);
-        String filePath = "C:\\Users\\zhenglian\\Desktop\\test.log";
+//        String filePath = "C:\\Users\\zhenglian\\Desktop\\test.log";
+        String filePath = "C:\\Users\\Administrator\\Desktop\\test.log";
         File file = new File(filePath);
         LogEventBroadcaster broadcaster = new LogEventBroadcaster(address, file);
         try {

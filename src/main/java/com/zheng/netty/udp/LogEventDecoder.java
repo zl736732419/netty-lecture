@@ -19,7 +19,9 @@ public class LogEventDecoder extends MessageToMessageDecoder<DatagramPacket> {
         ByteBuf data = packet.content();
         int idx = data.indexOf(0, data.readableBytes(), LogEvent.SEPERATOR);
         String filepath = data.slice(0, idx).toString(CharsetUtil.UTF_8);
+        data.readerIndex(idx+1);
         String msg = data.slice(idx+1, data.readableBytes()).toString(CharsetUtil.UTF_8);
+        data.writerIndex(data.writerIndex());
         LogEvent logEvent = new LogEvent(packet.sender(), filepath, msg, System.currentTimeMillis());
         list.add(logEvent);
     }
